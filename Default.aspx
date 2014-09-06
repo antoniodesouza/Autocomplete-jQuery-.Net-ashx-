@@ -7,62 +7,9 @@
     <title>Autocomplete</title>
     <script src="jQuery/jquery.js"></script>
     <script src="jQuery/jquery-ui.js"></script>
+    <script src="Default.js"></script>
     <link href="jQuery/jquery-ui.css" rel="stylesheet" />
     <script>
-
-
-        //INSERIR NO JAVASCRIPT GLOBAL
-        function _AutoComplete()
-        {
-            this.ID = 0;
-            this.Label = "";
-            this.fnSucesso = null;
-            this.fnSelected = function (ID, Label)
-            {
-                this.ID = ID;
-                this.Label = Label;
-                this.fnSucesso();
-            }
-        }
-        function setAutoComplete(CampoTextoID, CampoValorID, URL, QueryString, DigitosMinimo, ItensPorLinha, fnSucesso)
-        {
-            var AutoComplete = new _AutoComplete();
-            AutoComplete.fnSucesso = fnSucesso;
-
-            $(CampoTextoID).autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: URL,
-                        dataType: "jsonp",
-                        data: {
-                            q: request.term,
-                            itens: ItensPorLinha,
-                            query: QueryString
-                        },
-                        success: function (data) {
-                            response($.map(data, function (item) {
-                                return {
-                                    label: item.Texto,
-                                    id: item.Valor
-                                }
-                            }))
-                        }
-                    });
-                },
-                minLength: DigitosMinimo,
-                select: function (event, ui) {
-                    AutoComplete.fnSelected(
-                        (ui.item ? ui.item.id : this.value),
-                        (ui.item ? ui.item.label : this.value)
-                    );
-                }
-            }).focus(function () {
-                if (DigitosMinimo == 0) {
-                    $(this).autocomplete("search");
-                }
-            });
-        }
-
 
         // INSERIR NA CHAMADA DA PÁGINA
         function NomeSelecionado() //FUNCAO DE SUCESSO
@@ -70,21 +17,24 @@
             alert("Sucesso:" + this.ID + "-" + this.Label);
         }
 
-        $(document).ready(function (){ //INICIAIZANDO O OBJ
-            setAutoComplete("#NomeInput", "", "TesteJS.ashx", "qtd=10", 0, 10, NomeSelecionado);
+        $(document).ready(function () { //INICIAIZANDO O OBJ
+            setAutoComplete(
+                "#NomeInput",       //ID DO CAMPO A SER APLICADO O AUTOCOMPLETE
+                "",                 //ID DO CAMPO A SER APLICADO O VALOR SELECIONADO DO AUTOCOMPLETE
+                "TesteJS.ashx",     //URL DO JSON
+                "qtd=10",           //COMPLEMENTO DE VARIAVEIS PARA ENVIO VIA QUERYSTRING
+                0,                  //MINIMO DE DIGITOS PARA INICIAR O AUTOCOMPLETE 
+                10,                 //QUANTIDADE DE LINHAS A RETORNAR POR BUSCA 
+                NomeSelecionado     //FUNCAO A SER EXECUTADA AO SELECIONAR O ITEM
+            );
         });
 
-        
+
     </script>
 </head>
 <body>
-    <form id="form1" runat="server">
-    <div>
-    
-        Nome : <input type="text" id="NomeInput" />
-
-
-    </div>
-    </form>
+    Nome :
+    <br />
+    <input type="text" id="NomeInput" />
 </body>
 </html>
