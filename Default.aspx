@@ -10,18 +10,33 @@
     <link href="jQuery/jquery-ui.css" rel="stylesheet" />
     <script>
 
-        var AutoCompleteData = [];
-        function setAutoComplete(CampoID, URL, MinimoDigitos, ItensPorLinha, QueryString)
-        {
 
-            $(CampoID).autocomplete({
+        //INSERIR NO JAVASCRIPT GLOBAL
+        function _AutoComplete()
+        {
+            this.ID = 0;
+            this.Label = "";
+            this.fnSucesso = null;
+            this.fnSelected = function (ID, Label)
+            {
+                this.ID = ID;
+                this.Label = Label;
+                this.fnSucesso();
+            }
+        }
+        function setAutoComplete(CampoTextoID, CampoValorID, URL, QueryString, DigitosMinimo, ItensPorLinha, fnSucesso)
+        {
+            var AutoComplete = new _AutoComplete();
+            AutoComplete.fnSucesso = fnSucesso;
+
+            $(CampoTextoID).autocomplete({
                 source: function (request, response) {
                     $.ajax({
                         url: URL,
                         dataType: "jsonp",
                         data: {
                             q: request.term,
-                            itens: ItensPorLinha, 
+                            itens: ItensPorLinha,
                             query: QueryString
                         },
                         success: function (data) {
@@ -34,23 +49,32 @@
                         }
                     });
                 },
-                minLength: MinimoDigitos,
+                minLength: DigitosMinimo,
                 select: function (event, ui) {
-                    //this.value = ui.item.label;
-                    console.log(ui.item ?
-                      "Selected: " + ui.item.id + " - " + ui.item.label :
-                      "Nothing selected, input was " + this.value);
+                    AutoComplete.fnSelected(
+                        (ui.item ? ui.item.id : this.value),
+                        (ui.item ? ui.item.label : this.value)
+                    );
                 }
             }).focus(function () {
-                $(this).autocomplete("search");
+                if (DigitosMinimo == 0) {
+                    $(this).autocomplete("search");
+                }
             });
         }
 
 
-        $(document).ready(function () {
-            setAutoComplete("#NomeInput", "TesteJS.ashx", 0, "qtd=10");
+        // INSERIR NA CHAMADA DA PÁGINA
+        function NomeSelecionado() //FUNCAO DE SUCESSO
+        {
+            alert("Sucesso:" + this.ID + "-" + this.Label);
+        }
+
+        $(document).ready(function (){ //INICIAIZANDO O OBJ
+            setAutoComplete("#NomeInput", "", "TesteJS.ashx", "qtd=10", 0, 10, NomeSelecionado);
         });
 
+        
     </script>
 </head>
 <body>

@@ -27,16 +27,13 @@ public class TesteJS : IHttpHandler
         
         
         List<Item> lista = new List<Item>();
-        for (int i = 0; i < 20; i++)
-        {
-            lista.Add(new Item() { Valor = i + 1, Texto = "Flavia" });
-            lista.Add(new Item() { Valor = i + 2, Texto = "Antonio" });
-            lista.Add(new Item() { Valor = i + 3, Texto = "Celso" });
-            lista.Add(new Item() { Valor = i + 4, Texto = "Elcio" });
-            lista.Add(new Item() { Valor = i + 5, Texto = "Rafael" });
-            lista.Add(new Item() { Valor = i + 6, Texto = "Alexandre" });
-        }
-
+        lista.Add(new Item() { Valor = 1, Texto = "Flavia" });
+        lista.Add(new Item() { Valor = 2, Texto = "Antonio" });
+        lista.Add(new Item() { Valor = 3, Texto = "Celso" });
+        lista.Add(new Item() { Valor = 4, Texto = "Elcio" });
+        lista.Add(new Item() { Valor = 5, Texto = "Rafael" });
+        lista.Add(new Item() { Valor = 6, Texto = "Alexandre" });
+    
         List<String[]> _lista = new List<String[]>();
         var Filtro = (from tb in lista
                       where tb.Texto.ToLower().StartsWith(q.ToString().ToLower())
