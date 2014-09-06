@@ -20,7 +20,6 @@
         $(document).ready(function () { //INICIAIZANDO O OBJ
             setAutoComplete(
                 "#NomeInput",       //ID DO CAMPO A SER APLICADO O AUTOCOMPLETE
-                "",                 //ID DO CAMPO A SER APLICADO O VALOR SELECIONADO DO AUTOCOMPLETE
                 "TesteJS.ashx",     //URL DO JSON
                 "qtd=10",           //COMPLEMENTO DE VARIAVEIS PARA ENVIO VIA QUERYSTRING
                 0,                  //MINIMO DE DIGITOS PARA INICIAR O AUTOCOMPLETE 

@@ -8,7 +8,7 @@
         this.fnSucesso();
     }
 }
-function setAutoComplete(CampoTextoID, CampoValorID, URL, QueryString, DigitosMinimo, ItensPorLinha, fnSucesso) {
+function setAutoComplete(CampoTextoID, URL, QueryString, DigitosMinimo, ItensPorLinha, fnSucesso) {
     var AutoComplete = new _AutoComplete();
     AutoComplete.fnSucesso = fnSucesso;
 
